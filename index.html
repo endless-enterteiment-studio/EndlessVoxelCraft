@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOXELCRAFT - EES Hub v0.2</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    
+    .card {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #1e293b;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 2px solid #38bdf8;
+      text-align: center;
+    }
+
+    /* PAGE 1 - WELCOME */
+    #page1 { background-color: #090d16; border-color: #38bdf8; }
+    /* PAGE 2 - HUB MENU */
+    #page2 { display: none; background-color: #064e3b; border-color: #34d399; }
+    /* GAME 1 - CLICKER */
+    #game1 { display: none; background-color: #422006; border-color: #facc15; }
+    /* GAME 2 - INTRO/EXTRO TEST */
+    #game2 { display: none; background-color: #1e1b4b; border-color: #818cf8; }
+    /* GAME 3 - VOXEL BUILDER (NEW!) */
+    #game3 { display: none; background-color: #14532d; border-color: #4ade80; }
+
+    h1 { margin-top: 0; color: #facc15; }
+    
+    button {
+      background-color: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      margin: 8px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background-color: #7dd3fc;
+    }
+
+    .angka-score {
+      font-size: 52px;
+      font-weight: bold;
+      color: #4ade80;
+      margin: 10px 0;
+    }
+
+    ul {
+      text-align: left;
+      background: rgba(0,0,0,0.2);
+      padding: 15px 30px;
+      border-radius: 8px;
+    }
+
+    /* GRID FOR GAME 3 */
+    #gridBuilder {
+      display: grid;
+      grid-template-columns: repeat(8, 35px);
+      grid-gap: 4px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    .cell {
+      width: 35px;
+      height: 35px;
+      background-color: #334155;
+      border: 1px solid #475569;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    /* RATING SECTION */
+    .rating-box {
+      margin-top: 20px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px dashed #facc15;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: WELCOME SCREEN -->
+  <div id="page1" class="card">
+    <h1><b>WELCOME TO VOXELCRAFT HUB</b></h1>
+    <p><b>POWERED BY ENDLESS ENTERTAINMENT STUDIO (EES)</b></p>
+    <p>PUBLISHED AT: 26/9/26 | <b>VERSION: 0.2 (UPDATE)</b></p>
+    <br>
+    <button onclick="gopage2()"><b>CLICK ME TO PLAY 🎮</b></button>
+    <br><br>
+    <p><b>OTHER INFORMATION:</b></p>
+    <p><b>THIS GAME IS INSPIRED BY ROBLOX</b></p>
+    <ul>
+      <li>NOT MULTIPLAYER YET</li>
+      <li>GAMES HUB PLATFORM CREATED BY DZAKIR (SOLO DEV)</li>
+      <li>OFFICIAL STUDIO: ENDLESS ENTERTAINMENT STUDIO (EES)</li>
+      <li>PLEASE ENJOY THE GAMES!</li>
+    </ul>
+  </div>
+
+  <!-- PAGE 2: MAIN MENU / GAME SELECTION -->
+  <div id="page2" class="card">
+    <h1>MAIN GAME HUB</h1>
+    <p>CHOOSE A GAME AND HAVE FUN!</p>
+    <hr>
+    
+    <p><b>1. CLICKER GAME:</b></p>
+    <button onclick="gogame1()">PLAY CLICKER 👆</button>
+    
+    <p><b>2. TEST: INTROVERT OR EXTROVERT?</b></p>
+    <button onclick="gogame2()">START TEST 🧠</button>
+
+    <p><b>3. VOXEL MINI-BUILDER (NEW v0.2!):</b></p>
+    <button onclick="gogame3()">START BUILDING 🧱</button>
+
+    <!-- RATING SYSTEM INTEGRATED -->
+    <div class="rating-box">
+      <h3 style="color:#facc15; margin:0 0 10px 0;">⭐ EES FEEDBACK SYSTEM ⭐</h3>
+      <input type="text" id="fb_name" placeholder="Your Name" style="padding:5px; margin:2px; border-radius:4px;"><br>
+      <select id="fb_star" style="padding:5px; margin:2px; border-radius:4px;">
+        <option value="FIVE_STAR">⭐⭐⭐⭐⭐ (Awesome)</option>
+        <option value="FOUR_STAR">⭐⭐⭐⭐ (Good)</option>
+        <option value="THREE_STAR">⭐⭐⭐ (Fair)</option>
+      </select><br>
+      <input type="text" id="fb_msg" placeholder="Suggestions/Messages" style="padding:5px; margin:2px; border-radius:4px;"><br>
+      <button onclick="generateFeedbackCode()" style="background:#4ade80;">GENERATE RATING CODE</button>
+      <p id="fb_output" style="font-family:monospace; color:#facc15; font-size:12px; word-break:break-all;"></p>
+    </div>
+  </div>
+
+  <!-- GAME 1: CLICKER -->
+  <div id="game1" class="card">
+    <h1>CLICKER GAME</h1>
+    <div>YOUR SCORE:</div>
+    <div id="skor" class="angka-score">0</div>
+    <button id="tambah">CLICK HERE! 👆</button><br><br>
+    <button onclick="gopage2()">← BACK TO HUB</button>
+  </div>
+
+  <!-- GAME 2: INTROVERT / EXTROVERT TEST -->
+  <div id="game2" class="card">
+    <h1>PERSONALITY TEST</h1>
+    <p>After a long and exhausting week, how do you prefer to recharge your energy?</p>
+    <p style="text-align:left; font-size: 14px;">
+      <b>A.</b> Quiet time alone at home (reading, games, movies)<br>
+      <b>B.</b> Go out with friends, party, or socialise<br>
+      <b>C.</b> It depends—sometimes alone, sometimes hanging out
+    </p>
+    <button onclick="cho1()">OPTION A</button>
+    <button onclick="cho2()">OPTION B</button>
+    <button onclick="cho3()">OPTION C</button><br><br>
+    <button onclick="gopage2()">← BACK TO HUB</button>
+  </div>
+
+  <!-- GAME 3: VOXEL MINI-BUILDER (NEW) -->
+  <div id="game3" class="card">
+    <h1>2D VOXEL MINI-BUILDER</h1>
+    <p>Click on the grid below to start building!</p>
+    
+    <label>Select Block: </label>
+    <select id="blockType" style="padding:5px; border-radius:4px;">
+      <option value="#8b5cf6">🟪 Purple Voxel</option>
+      <option value="#22c55e">🟩 Grass / Green</option>
+      <option value="#ef4444">🟥 Redstone / Red</option>
+      <option value="#eab308">🟨 Gold / Yellow</option>
+      <option value="#334155">⬛ Clear / Empty</option>
+    </select>
+
+    <div id="gridBuilder"></div>
+    
+    <button onclick="gopage2()">← BACK TO HUB</button>
+  </div>
+
+  <script>
+    // System Navigation
+    function showPage(pageId) {
+      document.getElementById("page1").style.display = "none";
+      document.getElementById("page2").style.display = "none";
+      document.getElementById("game1").style.display = "none";
+      document.getElementById("game2").style.display = "none";
+      document.getElementById("game3").style.display = "none";
+      
+      document.getElementById(pageId).style.display = "block";
+    }
+
+    function gopage2() { showPage("page2"); }
+    function gogame1() { showPage("game1"); }
+    function gogame2() { showPage("game2"); }
+    function gogame3() { showPage("game3"); }
+
+    // Clicker Logic with LocalStorage
+    const newskor = document.getElementById('skor');
+    const tomboltambah = document.getElementById('tambah');
+    let skorpl = 0;
+
+    try {
+      let skoresave = localStorage.getItem('skorlocal');
+      if (skoresave !== null) {
+        skorpl = parseInt(skoresave);
+      }
+    } catch (e) {
+      skorpl = 0;
+    }
+    newskor.textContent = skorpl;
+
+    tomboltambah.onclick = function() {
+      skorpl++;
+      newskor.textContent = skorpl;
+      try {
+        localStorage.setItem('skorlocal', skorpl);
+      } catch (e) {}
+    };
+
+    // Personality Test Logic
+    function cho1() {
+      alert("Result: You tend to be Introverted! (Test is for fun)");
+      gopage2();
+    }
+    function cho2() {
+      alert("Result: You tend to be Extroverted! (Test is for fun)");
+      gopage2();
+    }
+    function cho3() {
+      alert("Result: You tend to be Ambivert! (Test is for fun)");
+      gopage2();
+    }
+
+    // Game 3: Voxel Builder Grid Generator
+    const gridContainer = document.getElementById("gridBuilder");
+    for (let i = 0; i < 64; i++) {
+      let cell = document.createElement("div");
+      cell.className = "cell";
+      cell.onclick = function() {
+        let color = document.getElementById("blockType").value;
+        this.style.backgroundColor = color;
+      };
+      gridContainer.appendChild(cell);
+    }
+
+    // Feedback Code Generator
+    function generateFeedbackCode() {
+      let name = document.getElementById("fb_name").value.trim() || "Player";
+      let star = document.getElementById("fb_star").value;
+      let msg = document.getElementById("fb_msg").value.trim() || "No_Msg";
+      
+      let cleanName = name.replace(/\s+/g, '_');
+      let cleanMsg = msg.replace(/\s+/g, '_');
+
+      let code = `EES-RATING[${star}][${cleanName}][${cleanMsg}]`;
+      document.getElementById("fb_output").textContent = "Send this code to Dev Dzakir:\n" + code;
+    }
+  </script>
+</body>
+</html>
