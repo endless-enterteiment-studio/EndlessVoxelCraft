@@ -32,7 +32,7 @@
     #game1 { display: none; background-color: #422006; border-color: #facc15; }
     /* GAME 2 - INTRO/EXTRO TEST */
     #game2 { display: none; background-color: #1e1b4b; border-color: #818cf8; }
-    /* GAME 3 - VOXEL BUILDER (NEW!) */
+    /* GAME 3 - VOXEL BUILDER */
     #game3 { display: none; background-color: #14532d; border-color: #4ade80; }
 
     h1 { margin-top: 0; color: #facc15; }
@@ -86,13 +86,58 @@
       border-radius: 4px;
     }
 
-    /* RATING SECTION */
+    /* RATING / FEEDBACK FORM STYLING */
     .rating-box {
-      margin-top: 20px;
+      margin-top: 25px;
       background: #0f172a;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px dashed #facc15;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px dashed #facc15;
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #38bdf8;
+    }
+
+    .form-group input, 
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background-color: #1e293b;
+      color: #ffffff;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: #facc15;
+      color: #0f172a;
+      font-size: 16px;
+      padding: 10px;
+      margin-top: 5px;
+    }
+
+    .btn-submit:hover {
+      background-color: #fde047;
     }
   </style>
 </head>
@@ -131,26 +176,38 @@
     <p><b>3. VOXEL MINI-BUILDER (NEW v0.2!):</b></p>
     <button onclick="gogame3()">START BUILDING 🧱</button>
 
-    <!-- RATING SYSTEM INTEGRATED -->
+    <!-- RATING & FEEDBACK SYSTEM INTEGRATED WITH FORMSPREE -->
     <div class="rating-box">
-      <h3 style="color:#facc15; margin:0 0 10px 0;">⭐ EES FEEDBACK SYSTEM ⭐</h3>
-      <input type="text" id="fb_name" placeholder="Your Name" style="padding:5px; margin:2px; border-radius:4px;"><br>
-      <select id="fb_star" style="padding:5px; margin:2px; border-radius:4px;">
-        <option value="FIVE_STAR">⭐⭐⭐⭐⭐ (Awesome)</option>
-        <option value="FOUR_STAR">⭐⭐⭐⭐ (Good)</option>
-        <option value="THREE_STAR">⭐⭐⭐ (Fair)</option>
-      </select><br>
+      <h3 style="color:#facc15; margin:0 0 15px 0; text-align:center;">⭐ EES FEEDBACK SYSTEM ⭐</h3>
+      
       <form action="https://formspree.io/f/mrpbywbv" method="POST">
-        <label for="username">your name:</label><br>
-        <input type="text" id="username" name="username" placeholder="Masukkan nama kamu" required><br><br>
+        <div class="form-group">
+          <label for="rating">Rating Game:</label>
+          <select id="rating" name="rating">
+            <option value="5 Stars - Awesome">⭐⭐⭐⭐⭐ (Awesome)</option>
+            <option value="4 Stars - Good">⭐⭐⭐⭐ (Good)</option>
+            <option value="3 Stars - Fair">⭐⭐⭐ (Fair)</option>
+            <option value="2 Stars - Needs Work">⭐⭐ (Needs Work)</option>
+            <option value="1 Star - Bad">⭐ (Bad)</option>
+          </select>
+        </div>
 
-        <label for="email">Your email:</label><br>
-        <input type="email" id="email" name="email" placeholder="contoh@gmail.com" required><br><br>
+        <div class="form-group">
+          <label for="username">Your Name / Roblox Username:</label>
+          <input type="text" id="username" name="username" placeholder="Masukkan nama kamu" required>
+        </div>
 
-        <label for="message">messange Feedback VoxelCraft:</label><br>
-        <textarea id="message" name="message" rows="4" placeholder="Write down your complaint or issue regarding the game...." required></textarea><br><br>
+        <div class="form-group">
+          <label for="email">Your Email:</label>
+          <input type="email" id="email" name="email" placeholder="contoh@gmail.com" required>
+        </div>
 
-        <button type="submit">send Feedback</button>
+        <div class="form-group">
+          <label for="message">Feedback / Bug Report:</label>
+          <textarea id="message" name="message" rows="4" placeholder="Write down your complaint or issue regarding the game..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Send Feedback 🚀</button>
       </form>
     </div>
   </div>
@@ -179,7 +236,7 @@
     <button onclick="gopage2()">← BACK TO HUB</button>
   </div>
 
-  <!-- GAME 3: VOXEL MINI-BUILDER (NEW) -->
+  <!-- GAME 3: VOXEL MINI-BUILDER -->
   <div id="game3" class="card">
     <h1>2D VOXEL MINI-BUILDER</h1>
     <p>Click on the grid below to start building!</p>
@@ -262,19 +319,6 @@
         this.style.backgroundColor = color;
       };
       gridContainer.appendChild(cell);
-    }
-
-    // Feedback Code Generator
-    function generateFeedbackCode() {
-      let name = document.getElementById("fb_name").value.trim() || "Player";
-      let star = document.getElementById("fb_star").value;
-      let msg = document.getElementById("fb_msg").value.trim() || "No_Msg";
-      
-      let cleanName = name.replace(/\s+/g, '_');
-      let cleanMsg = msg.replace(/\s+/g, '_');
-
-      let code = `EES-RATING[${star}][${cleanName}][${cleanMsg}]`;
-      document.getElementById("fb_output").textContent = "Send this code to Dev Dzakir:\n" + code;
     }
   </script>
 </body>
