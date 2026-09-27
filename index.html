@@ -140,10 +140,18 @@
         <option value="FOUR_STAR">⭐⭐⭐⭐ (Good)</option>
         <option value="THREE_STAR">⭐⭐⭐ (Fair)</option>
       </select><br>
-      <input type="text" id="fb_msg" placeholder="Suggestions/Messages" style="padding:5px; margin:2px; border-radius:4px;"><br>
-      <button onclick="generateFeedbackCode()" style="background:#4ade80;">GENERATE RATING CODE</button>
-      <p id="fb_output" style="font-family:monospace; color:#facc15; font-size:12px; word-break:break-all;"></p>
-      <a href="https://sphree.io" target="_blank" ...>🔗 Visit Sphree.io</a>
+      <form action="https://formspree.io/f/mrpbywbv" method="POST">
+        <label for="username">your name:</label><br>
+        <input type="text" id="username" name="username" placeholder="Masukkan nama kamu" required><br><br>
+
+        <label for="email">Your email:</label><br>
+        <input type="email" id="email" name="email" placeholder="contoh@gmail.com" required><br><br>
+
+        <label for="message">messange Feedback VoxelCraft:</label><br>
+        <textarea id="message" name="message" rows="4" placeholder="Write down your complaint or issue regarding the game...." required></textarea><br><br>
+
+        <button type="submit">send Feedback</button>
+      </form>
     </div>
   </div>
 
